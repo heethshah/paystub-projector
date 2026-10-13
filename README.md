@@ -109,8 +109,10 @@ endpoint work on your machine.
 
 ## Notes
 
-- **Model:** `src/App.jsx` requests `claude-sonnet-4-20250514`. You can change
-  that string to any model your Anthropic account has access to.
+- **Model:** the app uses `claude-sonnet-5-5`. If that model is ever retired
+  (you'll see an error like `model: claude-...`), add an environment variable
+  `ANTHROPIC_MODEL` in Netlify with a current model name and redeploy. No code
+  change needed.
 - **Cost control:** keep the key in Netlify's environment variables only. Don't
   paste it into any `.jsx`/`.html` file or commit it to GitHub.
 - **Privacy:** stubs are sent to the Anthropic API to be read, then discarded.

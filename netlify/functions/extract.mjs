@@ -2,6 +2,8 @@
 // Server-side proxy to the Anthropic API. The API key lives ONLY here,
 // as an environment variable on Netlify — never in the browser bundle.
 
+const DEFAULT_MODEL = "claude-sonnet-5-5";
+
 export default async (req) => {
   if (req.method !== "POST") {
     return json({ error: { message: "Method not allowed" } }, 405);
@@ -17,7 +19,11 @@ export default async (req) => {
 
   let body;
   try {
-    body = await req.text(); // forward the request the browser built, untouched
+    const parsed = JSON.parse(await req.text());
+    // The server decides the model, so a retired model can be swapped by
+    // setting ANTHROPIC_MODEL in Netlify — no code change or redeploy of the app needed.
+    parsed.model = process.env.ANTHROPIC_MODEL || parsed.model || DEFAULT_MODEL;
+    body = JSON.stringify(parsed);
   } catch {
     return json({ error: { message: "Could not read request body." } }, 400);
   }

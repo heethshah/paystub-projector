@@ -311,7 +311,7 @@ Return exactly:
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
+          model: "claude-sonnet-5-5", // the server can override this with ANTHROPIC_MODEL
           max_tokens: 1500,
           messages: [{ role: "user", content: [media, { type: "text", text: prompt }] }],
         }),
